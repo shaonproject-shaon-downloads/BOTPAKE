@@ -12,7 +12,7 @@ module.exports.config = {
 
 module.exports.run = async ({ api, event, args }) => {
     const axios = global.nodemodule['axios'];
-  const apis = await axios.get('https://raw.githubusercontent.com/islamickcyberchat/Imgur-/main/Cyber-Rajib')
+  const apis = await axios.get('https://raw.githubusercontent.com/shaonproject/Shaon/main/api.json')
   const n = apis.data.api
     const linkanh = event.messageReply.attachments[0].url || args.join(" ");
     if (!linkanh)

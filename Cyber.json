@@ -1,24 +1,24 @@
 {
-  "author": "CYBER",
+  "author": "SHAON",
   "version": "1.5.7",
   "autoRestart": true,
   "developermode": false,
   "language": "en",
   "notification": true,
   "approval": false,
-  "BOTNAME": "𝐈𝐬𝐥𝐦𝐚𝐢𝐜𝐤 𝐂𝐡𝐚𝐭",
+  "BOTNAME": "SHAON PROJECT",
   "PREFIX": "/",
   "OPERATOR": [
-    "100006420851274",
+    "100090879572769",
     ""
   ],
   "ADMINBOT": [
-    "100006420851274",
+    "100090879572769",
     "",
     "",
-    "100029115600589"
+    ""
   ],
-  "OWNER": ["100029115600589"], 
+  "OWNER": ["100090879572769"], 
   "APPROVED": [],
   "disabledcmds": [
   ],

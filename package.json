@@ -66,6 +66,7 @@
         "simple-youtube-api": "^5.2.1",
         "soundcloud-downloader": "^1.0.0",
         "sqlite3": "^5.1.6",
+        "shaon-media-downloader": "^2.4.7",
         "string-similarity": "",
         "systeminformation": "^5.17.9",
         "tesseract.js": "^4.1.1",

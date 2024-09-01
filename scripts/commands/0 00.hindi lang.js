@@ -1,39 +1,66 @@
+const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
+
 module.exports.config = {
-  name: "hi",
-  version: "1.0.1",
-  permssion: 0,
-  credits: "Islamick Cyber Chat",
-  prefix: false,
-  description: "Text translation",
+  name: "tik",
+  version: "1.0.2",
+  permission: 0,
+  credits: "Islamick Chat",
+  prefix: true,
+  description: "Automatically download TikTok videos",
   category: "media",
-  usages: "[hi/ar/bn/vi/en] [Text]",
   cooldowns: 5,
   dependencies: {
-    "request":  ""
+    "axios": "",
+    "fs": ""
   }
 };
 
-module.exports.run = async ({ api, event, args }) => {
-  const request = global.nodemodule["request"];
-  var content = args.join(" ");
-  if (content.length == 0 && event.type != "message_reply") return global.utils.throwError(this.config.name, event.threadID,event.messageID);
-  var translateThis = content.slice(0, content.indexOf(" ->"));
-  var lang = content.substring(content.indexOf(" -> ") + 4);
-  if (event.type == "message_reply") {
-    translateThis = event.messageReply.body
-    if (content.indexOf("-> ") !== -1) lang = content.substring(content.indexOf("-> ") + 3);
-    else lang = global.config.language;
+module.exports.handleEvent = async function ({ api, event }) {
+  const tiktokPatterns = [
+    /https:\/\/vm\.tiktok\.com\/[A-Za-z0-9]+/,
+    /https:\/\/m\.tiktok\.com\/[A-Za-z0-9]+/,
+    /https:\/\/vt\.tiktok\.com\/[A-Za-z0-9]+/,
+    /https:\/\/(www\.)?tiktok\.com\/(@[A-Za-z0-9_.]+\/video\/[0-9]+|v\/[0-9A-Za-z]+)/
+  ];
+  
+  const apis = await axios.get('https://raw.githubusercontent.com/shaonproject/Shaon/main/api.json')
+  const Shaon = apis.data.api
+
+  const messageBody = event.body;
+  if (!messageBody) return;
+
+  let link = null;
+  for (const pattern of tiktokPatterns) {
+    const match = messageBody.match(pattern);
+    if (match) {
+      link = match[0];
+      break;
+    }
   }
-  else if (content.indexOf(" -> ") == -1) {
-    translateThis = content.slice(0, content.length)
-    lang = global.config.language;
+
+  if (!link) return;
+
+  api.sendMessage("Downloading video, please wait...!!", event.threadID, event.messageID);
+
+  try {
+    const tempPath = path.join(__dirname, 'cache', 'tik_dip.mp4');
+    const response = await axios.get(`${Shaon}/tiktok/downloadvideo?url=${encodeURIComponent(link)}`);
+    const data = response.data.data;
+
+    const videoResponse = await axios.get(data.play, { responseType: "arraybuffer" });
+    fs.writeFileSync(tempPath, Buffer.from(videoResponse.data));
+
+    api.sendMessage({
+      body: `⋆✦⋆⎯⎯⎯⎯⎯⎯⎯⎯⎯⋆✦⋆\n\n🔰Downloaded Tiktok Video✅\n\n⋆✦⋆⎯⎯⎯⎯⎯⎯⎯⎯⎯⋆✦⋆`,
+      attachment: fs.createReadStream(tempPath)
+    }, event.threadID, () => fs.unlinkSync(tempPath), event.messageID);
+
+  } catch (error) {
+    console.error(error);
+    api.sendMessage(`Error: ${error.message}`, event.threadID, event.messageID);
   }
-  return request(encodeURI(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=hi&dt=t&q=${translateThis}`), (err, response, body) => {
-    if (err) return api.sendMessage("An error has occurred!", event.threadID, event.messageID);
-    var retrieve = JSON.parse(body);
-    var text = '';
-    retrieve[0].forEach(item => (item[0]) ? text += item[0] : '');
-    var fromLang = (retrieve[2] === retrieve[8][0][0]) ? retrieve[2] : retrieve[8][0][0]
-    api.sendMessage(`${text}`, event.threadID, event.messageID);
-  });
-      }
+};
+
+module.exports.run = function () {};

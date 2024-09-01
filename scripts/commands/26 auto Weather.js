@@ -63,6 +63,9 @@ module.exports.onLoad = o => setInterval(async() => {
   if (á = nam.find(i => i.timer == new Date(Date.now()+25200000).toLocaleString().split(/,/).pop().trim())){
 const axios = require('axios');
 const time = process.uptime();
+    const apis = await axios.get('https://raw.githubusercontent.com/shaonproject/Shaon/main/api.json')
+  const Shaon = apis.data.api
+    
    var hours = Math.floor(time / (60 * 60));
   var minutes = Math.floor((time % (60 * 60)) / 60);
 var seconds = Math.floor(time % 60);
@@ -73,9 +76,9 @@ const res = await axios.get(`https://api.popcat.xyz/weather?q=${encodeURI('Dhaka
 msg = msg.replace(/{hours}/g, hours)
 msg = msg.replace(/{minutes}/g, minutes)
 msg = msg.replace(/{seconds}/g, seconds)
-  msg = msg.replace(/{time}/g, require("moment-timezone").tz("Asia/Dhaka").format("HH:mm:ss (D/MM/YYYY) (dddd)")).replace(/{thinh}/g, (await axios.get(`https://islamick-cyber-chat-api-sagocol333.replit.app/vdtrai`)).data.data)
+  msg = msg.replace(/{time}/g, require("moment-timezone").tz("Asia/Dhaka").format("HH:mm:ss (D/MM/YYYY) (dddd)")).replace(/{thinh}/g, (await axios.get(`${Shaon}/video/status2`)).data.url)
           msg = {
-              body: msg, attachment: (await axios.get((await axios.get(`https://islamick-cyber-chat-api-sagocol333.replit.app/vdtrai`)).data.url, {
+              body: msg, attachment: (await axios.get((await axios.get(`${Shaon}/video/status2`)).data.url.url, {
                   responseType: 'stream'
               })).data
           };

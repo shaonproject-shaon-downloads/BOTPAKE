@@ -2,14 +2,14 @@ const { readdirSync, readFileSync, writeFileSync } = require("fs-extra");
 const { join, resolve } = require('path')
 const { execSync } = require('child_process');
 const axios = require('axios')
-const config = require("../../Cyber.json");
+const config = require("../../Shaon.json");
 const chalk = require("chalk");
 const listPackage = JSON.parse(readFileSync('../../package.json')).dependencies;
 const packages = JSON.parse(readFileSync('../../package.json'));
 const fs = require("fs");
 const login = require('../system/login/index.js');
 const moment = require("moment-timezone");
-const logger = require("./cyberc.js");
+const logger = require("./shaonc.js");
 const gradient = require("gradient-string");
 const process = require("process");
 const listbuiltinModules = require("module").builtinModules;
@@ -104,7 +104,7 @@ try {
 }
 var ryukoValue;
 try {
-  global.client.ryukoPath = join(global.client.mainPath, "../configs/Cyber.json");
+  global.client.ryukoPath = join(global.client.mainPath, "../configs/Shaon.json");
   ryukoValue = require(global.client.ryukoPath);
 } catch (e) {
   return;
@@ -116,17 +116,17 @@ try {
 }
 var configValue;
 try {
-  global.client.configPath = join(global.client.mainPath, "../../Cyber.json");
+  global.client.configPath = join(global.client.mainPath, "../../Shaon.json");
   configValue = require(global.client.configPath);
-  logger.loader(`deploying ${chalk.blueBright('CYBER')} file`);
+  logger.loader(`deploying ${chalk.blueBright('SHAON')} file`);
 } catch (e) {
-  return logger.loader(`cant read ${chalk.blueBright('CYBER')} file`, "error");
+  return logger.loader(`cant read ${chalk.blueBright('SHAON')} file`, "error");
 }
 try {
   for (const key in configValue) global.config[key] = configValue[key];
-  logger.loader(`deployed ${chalk.blueBright('CYBER')} file`);
+  logger.loader(`deployed ${chalk.blueBright('SHAON')} file`);
 } catch (e) {
-  return logger.loader(`can't deploy ${chalk.blueBright('CYBER')} file`, "error")
+  return logger.loader(`can't deploy ${chalk.blueBright('SHAON')} file`, "error")
 }
 
 var approvedListsValue;
@@ -210,21 +210,21 @@ global.getText = function(...args) {
 
 try {
   if (!global.config.BOTNAME) {
-    logger.error(`please enter your bot name in ${chalk.blueBright('Cyber.json')} file`);
+    logger.error(`please enter your bot name in ${chalk.blueBright('Shaon.json')} file`);
     process.exit(0);
   }
   if (!global.config.PREFIX) {
-    logger.error(`please enter your bot prefix in ${chalk.blueBright('Cyber.json')} file`)
+    logger.error(`please enter your bot prefix in ${chalk.blueBright('Shaon.json')} file`)
   }
-  if (global.config.author != "CYBER") {
-    logger.error(`detected : author was changed at ${chalk.blueBright('Cyber.json')}`);
+  if (global.config.author != "SHAON") {
+    logger.error(`detected : author was changed at ${chalk.blueBright('Shaon.json')}`);
     process.exit(0);
   }
-  if (packages.author != "CYBER") {
+  if (packages.author != "SHAON") {
     logger.error(`detected : author was changed at ${chalk.blueBright('package.json')}`);
     process.exit(0);
   }
-  if (packages.name != "CYBER") {
+  if (packages.name != "SHAON") {
     logger.error(`detected : project name was changed at ${chalk.blueBright('package.json')}`);
     process.exit(0);
   }
@@ -233,11 +233,11 @@ try {
 }
 
 try {
-  var appStateFile = resolve(join(global.client.mainPath, "../../Cyberstate.json"));
+  var appStateFile = resolve(join(global.client.mainPath, "../../Shaonstate.json"));
   var appState = ((process.env.REPL_OWNER || process.env.PROCESSOR_IDENTIFIER) && (fs.readFileSync(appStateFile, 'utf8'))[0] != "[" && ryuko.encryptSt) ? JSON.parse(global.utils.decryptState(fs.readFileSync(appStateFile, 'utf8'), (process.env.REPL_OWNER || process.env.PROCESSOR_IDENTIFIER))) : require(appStateFile);
-  logger.loader(`deployed ${chalk.blueBright('Cyberstate')} file`)
+  logger.loader(`deployed ${chalk.blueBright('Shaonstate')} file`)
 } catch (e) {
-  return logger.error(`can't read ${chalk.blueBright('Cyberstate')} file`)
+  return logger.error(`can't read ${chalk.blueBright('Shaonstate')} file`)
 }
 
 function onBot({ models: botModel }) {
@@ -272,26 +272,26 @@ function onBot({ models: botModel }) {
 
             if (!config?.category) {
               try {
-                throw new Error(` • HEY CYBER •  ${command} category is not in the correct format or empty`);
+                throw new Error(` • HEY SHAON •  ${command} category is not in the correct format or empty`);
               } catch (error) {
                 console.log(chalk.red(error.message));
                 continue;
               }
             }
-            const configures = require(`../../Cyber.json`);
+            const configures = require(`../../Shaon.json`);
             if (configures.premium) {
               if (!config?.hasOwnProperty('premium')) {
-                console.log(`• HEY CYBER • `, chalk.hex("#ff0000")(command) + ` does not have the "premium" property.`);
+                console.log(`• HEY SHAON • `, chalk.hex("#ff0000")(command) + ` does not have the "premium" property.`);
                 continue;
               }
             }
             if (!config?.hasOwnProperty('prefix')) {
-              console.log(`• HEY CYBER • `, chalk.hex("#ff0000")(command) + ` does not have the "prefix" property.`);
+              console.log(`• HEY SHAON • `, chalk.hex("#ff0000")(command) + ` does not have the "prefix" property.`);
               continue;
             }
 
             if (global.client.commands.has(config.name || '')) {
-              console.log(chalk.red(`• HEY CYBER •  ${chalk.hex("#FFFF00")(command)} module is already deployed.`));
+              console.log(chalk.red(`• HEY SHAON •  ${chalk.hex("#FFFF00")(command)} module is already deployed.`));
               continue;
             }
             const { dependencies, envConfig } = config;
@@ -321,7 +321,7 @@ function onBot({ models: botModel }) {
                 global.configModule[moduleName][envConfigKey] = global.ryuko[moduleName][envConfigKey] ?? envConfig[envConfigKey];
                 global.ryuko[moduleName][envConfigKey] = global.ryuko[moduleName][envConfigKey] ?? envConfig[envConfigKey];
               }
-              var ryukoPath = require('../configs/Cyber.json');
+              var ryukoPath = require('../configs/Shaon.json');
               ryukoPath[moduleName] = envConfig;
               writeFileSync(global.client.ryukoPath, JSON.stringify(ryukoPath, null, 4), 'utf-8');
             }
@@ -362,7 +362,7 @@ function onBot({ models: botModel }) {
             const event = require(join(global.client.mainPath, '../../scripts/events', ev));
             const { config, onLoad, run } = event;
             if (!config || !config.name || !run) {
-              global.loading.err(`${chalk.hex('#ff7100')(``)} ${chalk.hex("#FFFF00")(ev)} module is not in the correct format. `, "• CYBER EVENT •");
+              global.loading.err(`${chalk.hex('#ff7100')(``)} ${chalk.hex("#FFFF00")(ev)} module is not in the correct format. `, "• SHAON EVENT •");
               continue;
             }
 
@@ -375,7 +375,7 @@ function onBot({ models: botModel }) {
             }
 
             if (global.client.events.has(config.name)) {
-              global.loading.err(`${chalk.hex('#ff7100')(``)} ${chalk.hex("#FFFF00")(ev)} module is already deployed.`, "• CYBER EVENT •");
+              global.loading.err(`${chalk.hex('#ff7100')(``)} ${chalk.hex("#FFFF00")(ev)} module is already deployed.`, "• SHAON EVENT •");
               continue;
             }
             if (config.dependencies) {
@@ -408,7 +408,7 @@ function onBot({ models: botModel }) {
               await onLoad(eventData);
             }
             global.client.events.set(config.name, event);
-            global.loading(`${crayon(``)}successfully deployed ${chalk.blueBright(config.name)}`, "• CYBER EVENT •");
+            global.loading(`${crayon(``)}successfully deployed ${chalk.blueBright(config.name)}`, "• SHAON EVENT •");
           }
           catch (err) {
             global.loading.err(`${chalk.hex("#ff0000")('')}${chalk.blueBright(ev)} failed with error : ${err.message}` + `\n`, "event");
@@ -418,14 +418,14 @@ function onBot({ models: botModel }) {
 
         }
       })();
-    console.log(chalk.blue(`\n` + `• ISLAMICK CYBER CHAT BOT DATA •`));
-    global.loading(`${crayon(``)}deployed ${chalk.blueBright(`${global.client.commands.size}`)} commands and ${chalk.blueBright(`${global.client.events.size}`)} events`, "• CYBER DATA •");
-    global.loading(`${crayon(``)}deployed time : ${chalk.blueBright(((Date.now() - global.client.timeStart) / 1000).toFixed() + 's')}`, "• CYBER DATA •");
+    console.log(chalk.blue(`\n` + `• SHAON PROJECT BOT DATA •`));
+    global.loading(`${crayon(``)}deployed ${chalk.blueBright(`${global.client.commands.size}`)} commands and ${chalk.blueBright(`${global.client.events.size}`)} events`, "• SHAON DATA •");
+    global.loading(`${crayon(``)}deployed time : ${chalk.blueBright(((Date.now() - global.client.timeStart) / 1000).toFixed() + 's')}`, "• SHAON DATA •");
     const listenerData = {};
     listenerData.api = loginApiData;
     listenerData.models = botModel;
     const listener = require('../system/listen.js')(listenerData);
-    global.custom = require('../../Cyber.js')({ api: loginApiData });
+    global.custom = require('../../Shaon.js')({ api: loginApiData });
     global.handleListen = loginApiData.listenMqtt(async (error, message) => {
       if (error) {
         logger.error(error);
@@ -444,10 +444,10 @@ function onBot({ models: botModel }) {
     authentication.Sequelize = Sequelize;
     authentication.sequelize = sequelize;
     const models = require('../system/database/model.js')(authentication);
-    logger(`deployed ${chalk.blueBright('database')} system`, "• CYBER DATABASE   •");
-    logger(`deploying ${chalk.blueBright('login')} system`, "• CYBER LOGIN 	    •")
+    logger(`deployed ${chalk.blueBright('database')} system`, "• SHAON DATABASE   •");
+    logger(`deploying ${chalk.blueBright('login')} system`, "• SHAON LOGIN 	    •")
     const botData = {};
     botData.models = models;
     onBot(botData);
-  } catch (error) { logger(`can't deploy ${chalk.blueBright('database')} system`, "•CYBER FAILED    •") }
+  } catch (error) { logger(`can't deploy ${chalk.blueBright('database')} system`, "•SHAON FAILED    •") }
 })();

@@ -65,8 +65,8 @@ global.data = new Object({
   allCurrenciesID: new Array(),
   allThreadID: new Array(),
 });
-global.utils = require("./cyberd.js");
-global.loading = require("./cyberc.js");
+global.utils = require("./shaond.js");
+global.loading = require("./shaonc.js");
 global.nodemodule = new Object();
 global.config = new Object();
 global.ryuko = new Object();

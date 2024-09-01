@@ -6,9 +6,9 @@
     "warn": "yellow",
     "available": "blue, red, yellow, white, green, blueBright",
     "editNames": {
-      "success": "CYBER RUNNING",
-      "error":   "CYBER ERROR",
-      "warn":    "CYBER WARNING"
+      "success": "SHAON RUNNING",
+      "error":   "SHAON ERROR",
+      "warn":    "SHAON WARNING"
     }
   },
   "logger": {
@@ -19,10 +19,10 @@
       "evntLoader": "blue"
     },
     "strings": {
-      "cmdStarter": "CYBER INPORTING COMMANDS",
-      "evntStarter": "CYBER INPORTING EVENTS",
-      "cmdLoader": "CYBER COMMAND",
-      "evntLoader": "CYBER EVENT"
+      "cmdStarter": "SHAON INPORTING COMMANDS",
+      "evntStarter": "SHAON INPORTING EVENTS",
+      "cmdLoader": "SHAON COMMAND",
+      "evntLoader": "SHAON EVENT"
     }
   }
 }
